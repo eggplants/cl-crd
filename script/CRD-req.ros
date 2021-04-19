@@ -1,0 +1,24 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+DN=$(dirname $0)
+REPO=$(cd $DN/.. && pwd) # rosファイルの親ディレクトリにasdファイルがあるとき
+exec ros -Q -S "${REPO}" -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  #+quicklisp(ql:quickload '(:cl-crd) :silent t)
+  )
+
+(defpackage :ros.script.CRD-req.3827813861
+  (:use :cl))
+(in-package :ros.script.CRD-req.3827813861)
+
+(defparameter *query* '(("type" "reference")
+                        ("query" "question any 読書")))
+
+(defun main (&rest argv)
+  (declare (ignorable argv))
+  (let ((q *query*))
+    (cl-crd:request q)))
+;;; vim: set ft=lisp lisp:
